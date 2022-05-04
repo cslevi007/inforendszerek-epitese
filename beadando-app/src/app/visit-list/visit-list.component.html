@@ -1,0 +1,45 @@
+<div class="containter">
+    <div class="row">
+        <div class="col-md-7">
+            <input type="text" class="form-control" [(ngModel)]="searchQuery"
+                placeholder="Add meg a kívánt TAJ számot!">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary" (click)="search()">Keresés</button>
+        </div>
+    </div>
+    <div class="containter">
+        <div class="row">
+            <div>
+                <h3 *ngFor="let i of medicalHistories">{{i.patient.nev}} kórtörténete</h3>
+            </div>
+            <div class="col">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Diagnózis</th>
+                            <th scope="col">Gyógyszerek</th>
+                            <th scope="col">Kezelések</th>
+                            <th scope="col">Leletek</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let history of medicalHistories">
+                            <td>{{history.id}}</td>
+                            <td>{{history.diagnosis}}</td>
+                            <td>{{history.medicines}}</td>
+                            <td>{{history.treatments}}</td>
+                            <td>{{history.medrecords}}</td>
+                            <td *ngIf="isAdmin"><button class="btn btn-primary"
+                                    (click)="navigateToVisitForm(history.id)">Szerkesztés</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <button class="btn btn-success" routerLink="/visit-form">+ Új kórtörténeti elem hozzáadása</button>
+            </div>
+        </div>
+    </div>

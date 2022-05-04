@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-6">
+        <form [formGroup]="visitForm">
+            <label for="diagnosis">Diagnózis</label>
+            <input type="text" class="form-control" id="diagnosis" formControlName="diagnosis">
+
+            <label for="medicines">Gyógyszerek</label>
+            <input type="text" class="form-control" id="medicines" formControlName="medicines">
+
+            <label for="treatments">Kezelések</label>
+            <input type="text" class="form-control" id="treatments" formControlName="treatments">
+
+            <label for="medrecords">Leletek</label>
+            <input type="text" class="form-control" id="medrecords" formControlName="medrecords">
+
+            <!-- <label for="auto">Autó kiválasztása</label>
+            <div>
+                <select class="form-control" class="custom-select" id="auto" formControlName="auto">
+                    <option *ngFor="let car of cars" [ngValue]="car">{{ car.rendszam }} {{ car.tipus }}</option>
+                </select>
+            </div> -->
+
+
+        </form>
+
+        <button class="btn btn-primary mt-2" (click)="addMedicalHistory()" [disabled]="visitForm.invalid">
+            Mentés
+        </button>
+    </div>
+</div>

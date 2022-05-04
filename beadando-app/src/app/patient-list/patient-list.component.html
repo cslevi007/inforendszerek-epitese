@@ -1,0 +1,40 @@
+<div class="containter">
+    <div class="row">
+        <div class="col-md-7">
+            <input type="text" class="form-control" [(ngModel)]="searchQuery" placeholder="Keresés TAJ szám alapján">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary" (click)="search()">Keresés</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Név</th>
+                        <th scope="col">Szuletesi datum</th>
+                        <th scope="col">TAJ</th>
+                        <th scope="col">Nem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let patient of patients">
+                        <td>{{patient.id}}</td>
+                        <td>{{patient.nev}}</td>
+                        <td>{{patient.szuldatum}}</td>
+                        <td>{{patient.taj}}</td>
+                        <td>{{patient.nem}}</td>
+
+                        <td *ngIf="isAdmin"><button class="btn btn-primary"
+                                (click)="navigateToPatienteForm(patient.id)">Szerkesztés</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="isAdmin">
+            <button class="btn btn-success" routerLink="/patient-form">+ Új páciens felvétele</button>
+        </div>
+    </div>
+</div>

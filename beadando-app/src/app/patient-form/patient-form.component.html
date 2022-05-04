@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-6">
+        <form [formGroup]="patientForm">
+            <label for="nev">Név</label>
+            <input type="text" class="form-control" id="nev" formControlName="nev">
+            <div class="text-danger" *ngIf="f['nev'].invalid">
+                <small *ngIf="f['nev'].errors">A név formátuma nem megfelelő!</small>
+            </div>
+
+            <label for="szuldatum">Születési idő</label>
+            <input type="date" class="form-control" id="szuldatum" formControlName="szuldatum">
+
+            <label for="taj">TAJ</label>
+            <input type="text" class="form-control" id="taj" formControlName="taj">
+
+            <label for="nem">Nem</label>
+            <div>
+                <select class="form-control" class="custom-select" id="nem" formControlName="nem">
+                    <option>No</option>
+                    <option>Ferfi</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary mt-2" (click)="addPatient()" [disabled]="patientForm.invalid">
+                Mentés
+            </button>
+        </form>
+    </div>
+</div>
