@@ -6,6 +6,7 @@ import { Patient } from '../models/patient';
 import { MedicalHistory } from '../models/medicalhistory';
 import { PatientService } from '../services/patient.service';
 import { MedicalhistoryService } from '../services/medicalhistory.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-visit-list',
@@ -14,29 +15,47 @@ import { MedicalhistoryService } from '../services/medicalhistory.service';
 })
 export class VisitListComponent implements OnInit {
 
+  searchForm = this.formBuilder.group({
+    patient: ['', Validators.required]
+  });
+
   medicalHistories: MedicalHistory[] | undefined = undefined;
-  searchQuery = ''
-  isAdmin = false;
-  name = "";
+  isAdmin = this.appComponent.isAdmin;
+
+  patients: Patient[] | undefined;
+  selectedPatient: Patient | undefined;
+  patientFound = false;
 
   constructor(
+    private appComponent: AppComponent,
+    private formBuilder: FormBuilder,
     private medicalHistoryService: MedicalhistoryService,
+    private patientService: PatientService,
     private router: Router
   ) { }
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.searchForm.controls;
+  }
+
   async ngOnInit() {
-    // this.medicalHistories = await this.medicalHistoryService.getAll();
-    this.isAdmin = sessionStorage.getItem('role') === "1"
+    this.patients = await this.patientService.getAll();
   }
 
-  async search() {
-    this.medicalHistories = await this.medicalHistoryService.getMedicalHistoryByTAJ(this.searchQuery);
+  async onChange() {
+    this.medicalHistories = await this.medicalHistoryService.getMedicalHistoryByTAJ(this.searchForm.controls['patient'].value.taj);
+    this.selectedPatient = await this.patientService.getPatientByTaj(this.searchForm.controls['patient'].value.taj)
+
+    if (this.selectedPatient != undefined) {
+      this.patientFound = true;
+    }
   }
 
-  navigateToVisitForm(id: any) {
+  navigateToVisitForm(id: any, isNew: boolean) {
     this.router.navigate(['/visit-form'], {
       queryParams: {
-        id: id
+        id: id,
+        isNew: isNew
       }
     });
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppComponent } from '../app.component';
 import { Patient } from '../models/patient';
 import { PatientService } from '../services/patient.service';
 
@@ -12,16 +13,16 @@ export class PatientListComponent implements OnInit {
 
   patients: Patient[] | undefined = undefined;
   searchQuery = ''
-  isAdmin = false;
+  isAdmin = this.appComponent.isAdmin;
 
   constructor(
+    private appComponent: AppComponent,
     private patientService: PatientService,
     private router: Router
   ) { }
 
   async ngOnInit() {
     this.patients = await this.patientService.getAll();
-    this.isAdmin = sessionStorage.getItem('role') === "1"
   }
 
   async search() {
@@ -34,6 +35,11 @@ export class PatientListComponent implements OnInit {
         id: id
       }
     });
+  }
+
+  async deletePatient(id: any) {
+    await this.patientService.deletePatient(id)
+    this.ngOnInit();
   }
 
 }

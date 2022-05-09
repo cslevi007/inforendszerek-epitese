@@ -2,8 +2,11 @@ import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Examination } from '../models/examination';
+import { ExaminationService } from '../services/examination.service';
 import { Patient } from '../models/patient';
 import { PatientService } from '../services/patient.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-regular-examination',
@@ -12,19 +15,28 @@ import { PatientService } from '../services/patient.service';
 })
 export class RegularExaminationComponent implements OnInit {
 
-  patients: Patient[] | undefined = undefined;
-  tudoszuro: Patient[] = []
-  prosztata: Patient[] = []
-  mammografia: Patient[] = []
-  altalanos: Patient[] = []
+  examinations: Examination[] | undefined;
+  allinone: any[] = [];
+  isAdmin = this.appComponent.isAdmin;
 
-  constructor(private patientService: PatientService) { }
+  constructor(
+    private appComponent: AppComponent,
+    private patientService: PatientService,
+    private examinationService: ExaminationService,
+    private router: Router
+  ) { }
 
   async ngOnInit() {
-    this.patients = await this.patientService.getAll();
-    this.tudoszuro = await this.patientService.getTudoszuro();
-    this.prosztata = await this.patientService.getProsztata();
-    this.mammografia = await this.patientService.getMammografia();
-    this.altalanos = await this.patientService.getAll();
+    this.examinations = await this.examinationService.getAll();
+
+    for (let i = 0; i < this.examinations.length; i++) {
+      const item = {
+        sex: this.examinations[i].sex,
+        age: this.examinations[i].age,
+        isAbove: this.examinations[i].isAbove
+      }
+
+      this.allinone[i] = { exam: this.examinations[i], patients: await this.patientService.getPatientKombo(item.sex, item.age, item.isAbove) }
+    }
   }
 }

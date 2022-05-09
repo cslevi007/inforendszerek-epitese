@@ -19,7 +19,10 @@ export class MedicalHistory {
     @Column()
     medrecords: string;
 
-    @ManyToOne(type => Patient, patient => patient.medicalHistory)
+    @ManyToOne(type => Patient, {
+        eager: true,
+        cascade: true
+    })
     patient: Patient;
 
 }

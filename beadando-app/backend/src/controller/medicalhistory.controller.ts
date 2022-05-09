@@ -10,7 +10,7 @@ export class MedicalHistoryController extends Controller {
     getByTaj = async (req, res) => {
 
         try {
-            const taj = req.params.search || '';
+            const taj = req.query.search || '';
             const patientWithTaj = await this.patientRepository
                 .createQueryBuilder('patient')
                 .where("patient.taj LIKE CONCAT('%', :search, '%')", { search: taj })
@@ -35,6 +35,21 @@ export class MedicalHistoryController extends Controller {
                 .leftJoinAndSelect('medical_history.patient', 'patient')
                 .getMany();
             res.json(entities);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
+    getOne = async (req, res) => {
+        try {
+            const id = req.params.id;
+            const entity = await this.repository.findOne(id, { relations: ['patient'] });
+
+            if (!entity) {
+                return res.status(404).json({ message: 'Entity not found.' });
+            }
+
+            res.json(entity);
         } catch (err) {
             res.status(500).json({ message: err.message });
         }

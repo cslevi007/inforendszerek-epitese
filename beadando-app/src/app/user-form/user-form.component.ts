@@ -29,11 +29,12 @@ export class UserFormComponent implements OnInit {
   async ngOnInit() {
     const id = this.activatedRoute.snapshot.queryParams['id'];
     this.userExistList = await this.userService.getAll();
+
     this.userForm = this.formBuilder.group({
       id: [],
-      username: ['---', Validators.compose([Validators.minLength(3), Validators.required])],
-      password: ['---', Validators.compose([Validators.minLength(3), Validators.required])],
-      role: ['---', Validators.required],
+      username: ['', Validators.compose([Validators.minLength(3), Validators.required])],
+      password: ['', Validators.compose([Validators.minLength(3), Validators.required])],
+      role: ['', Validators.required],
     });
 
     if (id) {

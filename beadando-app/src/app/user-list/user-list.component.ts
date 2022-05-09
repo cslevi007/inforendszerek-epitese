@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppComponent } from '../app.component';
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
 
@@ -9,23 +10,22 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-
   users: User[] = [];
-  isAdmin = false;
+  isAdmin = this.appComponent.isAdmin;
+
   constructor(
+    private appComponent: AppComponent,
     private userService: UserService,
     private router: Router
   ) { }
 
   async ngOnInit() {
     this.users = await this.userService.getAll();
-    this.isAdmin = sessionStorage.getItem('role') === "1"
   }
 
   async deleteUser(id: any) {
     await this.userService.deleteUser(id)
-    this.router.navigate(['/user-form'])
-    this.router.navigate(['/user-list'])
+    this.ngOnInit();
 
   }
 
@@ -36,5 +36,4 @@ export class UserListComponent implements OnInit {
       }
     });
   }
-
 }

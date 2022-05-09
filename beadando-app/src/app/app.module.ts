@@ -15,6 +15,7 @@ import { PatientFormComponent } from './patient-form/patient-form.component';
 import { VisitListComponent } from './visit-list/visit-list.component';
 import { VisitFormComponent } from './visit-form/visit-form.component';
 import { RegularExaminationComponent } from './regular-examination/regular-examination.component';
+import { RegularExaminationFormComponent } from './regular-examination-form/regular-examination-form.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RegularExaminationComponent } from './regular-examination/regular-exami
     PatientFormComponent,
     VisitListComponent,
     VisitFormComponent,
-    RegularExaminationComponent
+    RegularExaminationComponent,
+    RegularExaminationFormComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,7 @@ import { RegularExaminationComponent } from './regular-examination/regular-exami
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [DatePipe],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

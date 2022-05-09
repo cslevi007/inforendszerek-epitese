@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-6" id="containerDiv">
+        <form [formGroup]="examinationForm">
+            <div class="form-group mb-4">
+                <label for="name">Vizsgálat neve</label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <div class="text-danger">
+                    <small *ngIf="f['name'].errors">Adjon meg megfelelő nevet!</small>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="sex">Kiknek szükséges a szűrvizsgálat?</label>
+                <select class="form-control" class="custom-select" id="sex" formControlName="sex">
+                    <option value="No">Nőknek</option>
+                    <option value="Ferfi">Férfiaknak</option>
+                    <option value="x">Mindenkinek</option>
+                </select>
+                <div class="text-danger">
+                    <small *ngIf="f['sex'].errors">Nem megadása kötelező!</small>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="age">Kor</label>
+                <input type="number" class="form-control" id="age" formControlName="age">
+                <div class="text-danger">
+                    <small *ngIf="f['age'].errors">Kor megadása kötelező!</small>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <p>Megadott kor alatt/felett:</p>
+
+                <input type="radio" id="alatt" value="false" formControlName="isAbove">
+                <label for="alatt">Alatt</label>
+
+                <input type="radio" id="felett" value="true" formControlName="isAbove">
+                <label for="felett">Felett</label>
+
+                <div class="text-danger">
+                    <small *ngIf="f['isAbove'].errors">Alatt/felett megadása kötelező!</small>
+                </div>
+            </div>
+
+
+            <div class="form-group mb-4">
+                <label for="age">Hány évente:</label>
+                <input type="number" class="form-control" id="interval" formControlName="interval">
+                <div class="text-danger">
+                    <small *ngIf="f['interval'].errors">Intervallum megadása kötelező!</small>
+                </div>
+            </div>
+
+
+            <button class="btn btn-primary mt-2" (click)="addExamination()" [disabled]="examinationForm.invalid">
+                Mentés
+            </button>
+        </form>
+    </div>
+</div>

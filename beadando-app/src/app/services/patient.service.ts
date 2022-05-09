@@ -28,19 +28,19 @@ export class PatientService {
     }));
   }
 
-  async getTudoszuro() {
-    return await lastValueFrom(this.http.get<Patient[]>('/api/patient_tudoszuro'));
+  async getPatientByTaj(search: string) {
+    return await lastValueFrom(this.http.get<Patient>('/api/patientbytaj', {
+      params: { search }
+    }));
   }
 
-  async getProsztata() {
-    return await lastValueFrom(this.http.get<Patient[]>('/api/patient_prosztata'));
+  async getPatientKombo(sex: string, age: number, isAbove: boolean) {
+    return await lastValueFrom(this.http.get<Patient[]>('/api/patientkombo', {
+      params: { sex, age, isAbove }
+    }));
   }
 
-  async getMammografia() {
-    return await lastValueFrom(this.http.get<Patient[]>('/api/patient_mammografia'));
-  }
-
-  async getAltalanos() {
-    return await lastValueFrom(this.http.get<Patient[]>('/api/patient_altalanos'));
+  async deletePatient(id: number) {
+    return await lastValueFrom(this.http.delete<Patient>('/api/patient/' + id))
   }
 }

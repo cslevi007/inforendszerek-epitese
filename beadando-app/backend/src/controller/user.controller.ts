@@ -15,7 +15,7 @@ export class UserController extends Controller {
                 .where('user.username = :username AND user.password = :password', { username: username, password: password })
                 .getOne();
             if (entity) {
-                res.json(entity.role);
+                res.json(entity);
             } else {
                 res.json('');
             }

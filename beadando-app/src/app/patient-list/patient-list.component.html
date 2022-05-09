@@ -29,6 +29,8 @@
 
                         <td *ngIf="isAdmin"><button class="btn btn-primary"
                                 (click)="navigateToPatienteForm(patient.id)">Szerkesztés</button></td>
+                        <td *ngIf="isAdmin"><button class="btn btn-danger"
+                                (click)="deletePatient(patient.id)">Törlés</button></td>
                     </tr>
                 </tbody>
             </table>

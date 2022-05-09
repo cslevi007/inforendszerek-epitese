@@ -15,6 +15,7 @@ export class MedicalhistoryService {
   }
 
   async addMedicalHistory(medicalhistory: MedicalHistory) {
+    console.log(medicalhistory)
     return await lastValueFrom(this.http.post<MedicalHistory>('/api/medicalhistory', medicalhistory));
   }
 

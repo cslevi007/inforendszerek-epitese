@@ -1,9 +1,7 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Patient } from '../models/patient';
-import { MedicalHistory } from '../models/medicalhistory';
 import { PatientService } from '../services/patient.service';
 import { MedicalhistoryService } from '../services/medicalhistory.service';
 
@@ -15,6 +13,7 @@ import { MedicalhistoryService } from '../services/medicalhistory.service';
 export class VisitFormComponent implements OnInit {
 
   visitForm!: FormGroup;
+  patientToInsert: Patient | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,35 +28,45 @@ export class VisitFormComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const id = this.activatedRoute.snapshot.queryParams['id'];
+    const isNew = this.activatedRoute.snapshot.queryParams['isNew']
 
     this.visitForm = this.formBuilder.group({
       id: [],
       diagnosis: ['', Validators.required],
-      medicines: ['', Validators.required],
-      treatments: ['', Validators.required],
-      medrecords: ['', Validators.required],
-      patient: ['', Validators.required]
+      medicines: [''],
+      treatments: [''],
+      medrecords: [''],
+      patient: [this.patientToInsert, Validators.required]
     });
 
-    if (id) {
-      const visit = await this.medicalHistoryService.getMedicalHistoryById(id);
-      this.visitForm.controls['id'].setValue(visit?.id);
-      this.visitForm.controls['diagnosis'].setValue(visit?.diagnosis);
-      this.visitForm.controls['medicines'].setValue(visit?.medicines);
-      this.visitForm.controls['treatments'].setValue(visit?.treatments);
-      this.visitForm.controls['medrecords'].setValue(visit?.medrecords);
-      this.visitForm.controls['patient'].setValue(visit?.patient);
+    if (isNew == "false") {
+      const medicalHistoryId = this.activatedRoute.snapshot.queryParams['id'];
+
+      if (medicalHistoryId) {
+        const visit = await this.medicalHistoryService.getMedicalHistoryById(medicalHistoryId);
+        console.log("most a módosítás fut")
+
+        this.visitForm.controls['id'].setValue(visit?.id);
+        this.visitForm.controls['diagnosis'].setValue(visit?.diagnosis);
+        this.visitForm.controls['medicines'].setValue(visit?.medicines);
+        this.visitForm.controls['treatments'].setValue(visit?.treatments);
+        this.visitForm.controls['medrecords'].setValue(visit?.medrecords);
+        this.visitForm.controls['patient'].setValue(visit?.patient);
+      }
     }
+    else {
+      const patientId = this.activatedRoute.snapshot.queryParams['id'];
+      const tmp = await this.patientService.getPatientByID(patientId);
+      this.visitForm.controls['patient'].setValue(tmp);
+      console.log("a hozzáadás fut most")
+    }
+
 
   }
 
   async addMedicalHistory() {
-    // this.visitForm.controls['medicines'].setValue("ololol");
-    // this.visitForm.controls['pattreatmentsient'].setValue("huhaaa");
-    // this.visitForm.controls['medrecords'].setValue("trollolo");
-    this.visitForm.controls['patient'].setValue(2);
     const medicalHistory = this.visitForm.value;
+
     this.medicalHistoryService.addMedicalHistory(medicalHistory);
     this.router.navigateByUrl('/visit-list');
   }

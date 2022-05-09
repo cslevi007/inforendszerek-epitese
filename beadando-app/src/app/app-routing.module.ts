@@ -9,6 +9,7 @@ import { PatientListComponent } from './patient-list/patient-list.component';
 import { VisitListComponent } from './visit-list/visit-list.component';
 import { VisitFormComponent } from './visit-form/visit-form.component';
 import { RegularExaminationComponent } from './regular-examination/regular-examination.component';
+import { RegularExaminationFormComponent } from './regular-examination-form/regular-examination-form.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'regular-examination',
     component: RegularExaminationComponent
+  },
+  {
+    path: 'regular-examination-form',
+    component: RegularExaminationFormComponent
   },
 ];
 

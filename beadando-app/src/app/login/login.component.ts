@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
+import { User } from '../models/user';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -10,6 +11,8 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  user: User | undefined;
 
   errorMessage!: string;
 
@@ -31,8 +34,16 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    this.appComponent.isLoggedIn = await this.authService.authenticateUser(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value);
-    this.appComponent.isAdmin = sessionStorage.getItem('role') === '1'
+    const user = await this.authService.authenticateUser(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value);
+    console.log(user.role);
+    if (user.role === 1) {
+      this.appComponent.isLoggedIn = true;
+      this.appComponent.isAdmin = true;
+    }
+    else if (user.role === 2) {
+      this.appComponent.isLoggedIn = true;
+      this.appComponent.isAdmin = false;
+    }
 
     if (this.appComponent.isLoggedIn) {
       this.router.navigateByUrl('/patient-list');

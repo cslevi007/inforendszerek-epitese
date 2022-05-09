@@ -13,6 +13,7 @@ import { PatientService } from '../services/patient.service';
 export class PatientFormComponent implements OnInit {
 
   patientForm!: FormGroup;
+  existingPatients: Patient[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +29,7 @@ export class PatientFormComponent implements OnInit {
 
   async ngOnInit() {
     const id = this.activatedRoute.snapshot.queryParams['id'];
+    this.existingPatients = await this.patientService.getAll();
 
     this.patientForm = this.formBuilder.group({
       id: [],
@@ -44,6 +46,22 @@ export class PatientFormComponent implements OnInit {
       this.patientForm.controls['taj'].setValue(patient?.taj);
       this.patientForm.controls['szuldatum'].setValue(patient?.szuldatum);
       this.patientForm.controls['nem'].setValue(patient?.nem)
+    }
+    else {
+      this.patientForm.controls['taj'].addValidators(this.isTajAlreadyExist(this.existingPatients))
+    }
+  }
+
+  private isTajAlreadyExist(list: Patient[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const index = list.find(x => x.taj === control.value)
+
+      if (index === undefined) {
+        return null
+      }
+      else {
+        return { tajAlreadyExist: true }
+      }
     }
   }
 

@@ -8,15 +8,14 @@
                 <label>Felhasználónév:</label>
                 <input type="text" class="form-control" formControlName="username">
                 <div class="text-danger" *ngIf="f['username']?.invalid">
-                    <small *ngIf="f['username']?.errors?.['required']">A felhasználónév mező nem hagyható
-                        üresen!</small>
+                    <small *ngIf="f['username']?.errors?.['required']">A felhasználónév mező kitöltése kötelező!</small>
                 </div>
             </div>
             <div class=" mb-3">
                 <label>Jelszó:</label>
                 <input type="password" class="form-control" formControlName="password">
                 <div class="text-danger" *ngIf="f['password']?.invalid">
-                    <small *ngIf="f['password']?.errors?.['required']">A jelszó mező nem hagyható üresen!</small>
+                    <small *ngIf="f['password']?.errors?.['required']">A jelszó mező kitöltése kötelező!</small>
                 </div>
             </div>
             <button type="button" class="btn btn-secondary form-control" (click)="login()"

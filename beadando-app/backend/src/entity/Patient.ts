@@ -19,10 +19,7 @@ export class Patient {
     @Column()
     nem: string;
 
-    @OneToMany(type => MedicalHistory, medicalHistory => medicalHistory.patient, {
-        eager: true,
-        cascade: true
-    })
+    @OneToMany(type => MedicalHistory, medicalHistory => medicalHistory.patient)
     medicalHistory: MedicalHistory[];
 
 }

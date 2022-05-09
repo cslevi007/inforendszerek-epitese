@@ -1,100 +1,40 @@
-<br>
-<div class="row">
-    <h3>Éves tüdőszűrés (18 év felett, nemtől függetlenül)</h3>
-</div>
-<div class="row">
-    <div class="col">
-        <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Név</th>
-                    <th scope="col">Születési dátum</th>
-                    <th scope="col">Nem</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let p of tudoszuro">
-                    <td>{{p.nev}}</td>
-                    <td>{{p.szuldatum}}</td>
-                    <td>{{p.nem}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<br>
-
-<div class="row">
-    <h3>2 éves prosztata vizsgálat (35 év fölötti férfiak)</h3>
-</div>
-<div class="row">
-    <div class="col">
-        <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Név</th>
-                    <th scope="col">Születési dátum</th>
-                    <th scope="col">Nem</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let p of prosztata">
-                    <td>{{p.nev}}</td>
-                    <td>{{p.szuldatum}}</td>
-                    <td>{{p.nem}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<br>
-
-<div class="row">
-    <h3>3 évenkénti mammográfia (45 év fölötti nők)</h3>
-</div>
-<div class="row">
-    <div class="col">
-        <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Név</th>
-                    <th scope="col">Születési dátum</th>
-                    <th scope="col">Nem</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let p of mammografia">
-                    <td>{{p.nev}}</td>
-                    <td>{{p.szuldatum}}</td>
-                    <td>{{p.nem}}</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="col-md-12 text-center">
+    <div *ngIf="isAdmin">
+        <button class="btn btn-success m-3" routerLink="/regular-examination-form">Új szűrővizsgálat megadása</button>
     </div>
 </div>
 
-<br>
-
-<div class="row">
-    <h3>5 éves általános vizsgálat (mindenkinek)</h3>
-</div>
-<div class="row">
-    <div class="col">
-        <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Név</th>
-                    <th scope="col">Születési dátum</th>
-                    <th scope="col">Nem</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let p of altalanos">
-                    <td>{{p.nev}}</td>
-                    <td>{{p.szuldatum}}</td>
-                    <td>{{p.nem}}</td>
-                </tr>
-            </tbody>
-        </table>
+<div *ngFor="let item of allinone">
+    <div class="row">
+        <h3>{{item.exam.name}} ({{item.exam.interval}} évente)
+        </h3>
+        <p><span *ngIf="item.exam.age != 0">{{item.exam.age}} év </span>
+            <span *ngIf="item.exam.isAbove == true && item.exam.age != 0">felett - </span>
+            <span *ngIf="item.exam.isAbove == false && item.exam.age != 0">alatt - </span>
+            <span *ngIf="item.exam.sex =='No'">nőknek</span>
+            <span *ngIf="item.exam.sex =='Ferfi'">férfiaknak</span>
+            <span *ngIf="item.exam.sex ==''">mindenkinek</span>
+        </p>
     </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Név</th>
+                        <th scope="col">Születési dátum</th>
+                        <th scope="col">Nem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of item.patients">
+                        <td>{{i.nev}}</td>
+                        <td>{{i.szuldatum}}</td>
+                        <td>{{i.nem}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
 </div>

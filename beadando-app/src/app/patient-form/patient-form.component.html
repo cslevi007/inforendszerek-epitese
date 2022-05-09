@@ -1,27 +1,46 @@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6" id="containerDiv">
         <form [formGroup]="patientForm">
-            <label for="nev">Név</label>
-            <input type="text" class="form-control" id="nev" formControlName="nev">
-            <div class="text-danger" *ngIf="f['nev'].invalid">
-                <small *ngIf="f['nev'].errors">A név formátuma nem megfelelő!</small>
+            <div class="form-group mb-4">
+                <label for="nev">Név</label>
+                <input type="text" class="form-control" id="nev" formControlName="nev" placeholder="Jóska Pista">
+                <div class="text-danger">
+                    <small *ngIf="f['nev'].errors">Adjon meg megfelelő nevet!</small>
+                </div>
             </div>
 
-            <label for="szuldatum">Születési idő</label>
-            <input type="date" class="form-control" id="szuldatum" formControlName="szuldatum">
+            <div class="form-group mb-4">
+                <label for="szuldatum">Születési idő</label>
+                <input type="date" class="form-control" id="szuldatum" formControlName="szuldatum">
+                <div class="text-danger">
+                    <small *ngIf="f['szuldatum'].errors">Születési dátum megadása kötelező!</small>
+                </div>
+            </div>
 
-            <label for="taj">TAJ</label>
-            <input type="text" class="form-control" id="taj" formControlName="taj">
 
-            <label for="nem">Nem</label>
-            <div>
+            <div class="form-group mb-4">
+                <label for="taj">TAJ</label>
+                <input type="text" class="form-control" id="taj" formControlName="taj" placeholder="111-222-333">
+                <div class="text-danger">
+                    <small *ngIf="f['taj'].errors">A TAJ szám formátuma nem megfelelő vagy már létezik az
+                        adatbázisban.</small>
+                </div>
+            </div>
+
+
+            <div class="form-group mb-4">
+                <label for="nem">Nem</label>
                 <select class="form-control" class="custom-select" id="nem" formControlName="nem">
                     <option>No</option>
                     <option>Ferfi</option>
                 </select>
+                <div class="text-danger">
+                    <small *ngIf="f['nem'].errors">Nem megadása kötelező!</small>
+                </div>
             </div>
 
-            <button class="btn btn-primary mt-2" (click)="addPatient()" [disabled]="patientForm.invalid">
+
+            <button class="btn btn-primary" (click)="addPatient()" [disabled]="patientForm.invalid">
                 Mentés
             </button>
         </form>
